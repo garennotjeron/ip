@@ -18,6 +18,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return ". [" + this.getCompletion() + "] " + this.description;
+        return "[" + this.getCompletion() + "] " + this.description;
     }
 }
