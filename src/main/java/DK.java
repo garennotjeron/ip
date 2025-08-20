@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class DK {
 
-    private static final List<String> allInputs = new ArrayList<>(); // limit set for size of array for all user inputs
+    private static final List<Task> allInputs = new ArrayList<>(); // limit set for size of array for all user inputs
 
     public static void main(String[] args) {
         printLine();
@@ -36,18 +36,41 @@ public class DK {
                 printEnding();
             } else if (userInput.equals("list")) {
                 displayList();
+            } else if (userInput.startsWith("mark ")) {
+                int index = Integer.parseInt(userInput.substring(5).trim());
+                markItem(index);
+            } else if (userInput.startsWith("unmark ")) {
+                int index = Integer.parseInt(userInput.substring(7).trim());
+                unmarkItem(index);
             }
             else {
-                allInputs.add(userInput);
+                allInputs.add(new Task(userInput));
                 System.out.println("added: " + userInput);
             }
         }
     }
 
     public static void displayList() {
+        System.out.println("Here are the tasks in your list:");
         for (int i = 1; i < allInputs.size() + 1; i++) {
-            System.out.println(i + ". " + allInputs.get(i-1));
+            System.out.println(i + allInputs.get(i-1).toString());
         }
+        printLine();
+    }
+
+    public static void markItem(int index) {
+        Task t = allInputs.get(index - 1);
+        t.updateCompletion();
+        System.out.println("Nice! I've marked this task as done:");
+        System.out.println(index + t.toString());
+        printLine();
+    }
+
+    public static void unmarkItem(int index) {
+        Task t = allInputs.get(index - 1);
+        t.updateCompletion();
+        System.out.println("Nice! I've marked this task as undone:");
+        System.out.println(index + t.toString());
         printLine();
     }
 
