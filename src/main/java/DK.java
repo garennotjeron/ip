@@ -1,12 +1,16 @@
+import java.util.List;
 import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
 
 public class DK {
+
+    private static List<String> allInputs = new ArrayList<>(); // limit set for size of array for all user inputs
+
     public static void main(String[] args) {
         printLine();
         printIntro();
         echoInput();
-
-
     }
 
     public static void printIntro() {
@@ -31,10 +35,21 @@ public class DK {
             printLine();
             if (userInput.equals("bye")) {
                 printEnding();
-            } else {
-            System.out.println(userInput);
+            } else if (userInput.equals("list")) {
+                displayList();
+            }
+            else {
+                allInputs.add(userInput);
+                System.out.println("added: " + userInput);
             }
         }
     }
+
+    public static void displayList() {
+        for (int i = 1; i < allInputs.size() + 1; i++) {
+            System.out.println(i + ". " + allInputs.get(i-1));
+        }
+    }
+
 }
 
