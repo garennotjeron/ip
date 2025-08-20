@@ -1,11 +1,10 @@
 import java.util.List;
 import java.util.Scanner;
-import java.util.List;
 import java.util.ArrayList;
 
 public class DK {
 
-    private static List<String> allInputs = new ArrayList<>(); // limit set for size of array for all user inputs
+    private static final List<String> allInputs = new ArrayList<>(); // limit set for size of array for all user inputs
 
     public static void main(String[] args) {
         printLine();
