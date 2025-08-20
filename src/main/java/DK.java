@@ -69,7 +69,7 @@ public class DK {
     public static void unmarkItem(int index) {
         Task t = allInputs.get(index - 1);
         t.updateCompletion();
-        System.out.println("Nice! I've marked this task as undone:");
+        System.out.println("Nice! I've marked this task as not done yet:");
         System.out.println(index + t.toString());
         printLine();
     }
