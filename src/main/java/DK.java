@@ -48,6 +48,7 @@ public class DK {
         for (int i = 1; i < allInputs.size() + 1; i++) {
             System.out.println(i + ". " + allInputs.get(i-1));
         }
+        printLine();
     }
 
 }
