@@ -6,6 +6,6 @@ public class DKException extends Exception{
 
     @Override
     public String toString() {
-        return "DK has detected this error:" + this.getMessage();
+        return "DK has detected this error: " + this.getMessage();
     }
 }
