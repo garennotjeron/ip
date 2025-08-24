@@ -13,7 +13,7 @@ public class DK {
     }
 
     public static void printIntro() {
-        System.out.println("Hello! I'm DK \nWhat can I do for you?");
+        System.out.println("Hello! I'm DK\nWhat can I do for you?");
         printLine();
     }
 
@@ -28,8 +28,8 @@ public class DK {
 
     public static void echoInput() {
         String userInput = "";
+        Scanner scanner = new Scanner(System.in);
         while (!userInput.equals("bye")) {
-            Scanner scanner = new Scanner(System.in);
             userInput = scanner.nextLine();
             printLine();
             if (userInput.equals("bye")) {
