@@ -52,7 +52,11 @@ public class DK {
                     System.out.println(e);
                 }
             } else if (userInput.startsWith("todo ") || userInput.startsWith("deadline ") || userInput.startsWith("event ")) {
-                addItem(userInput);
+                try {
+                    addItem(userInput);
+                } catch (DKException e) {
+                    System.out.println(e);
+                }
             }
             else {
                 System.out.println("Invalid input, please try again");
@@ -61,6 +65,11 @@ public class DK {
     }
 
     public static void displayList() {
+        if (allTasks.isEmpty()) {
+            System.out.println("There are no tasks in the list.");
+            return;
+        }
+
         System.out.println("Here are the tasks in your list:");
         for (int i = 1; i < allTasks.size() + 1; i++) {
             System.out.println(i + "." + allTasks.get(i-1).toString());
@@ -118,6 +127,9 @@ public class DK {
                 throw new DKException("Format of command should match the following: 'deadline {description} /by {deadline}' ");
             }
             String[] splitted = userInput.split("/by");
+            if (splitted.length != 2) {
+                throw new DKException("Format of command should match the following: 'deadline {description} /by {deadline}' ");
+            }
             if (splitted[0].trim().isEmpty()) {
                 throw new DKException("Description is missing, Format of command should match the following: 'deadline {description} /by {deadline}' ");
             }
@@ -126,10 +138,45 @@ public class DK {
             }
             newTask = new Deadline(splitted[0].substring(9).trim(), splitted[1].trim());
         } else {
-            String[] splitted = userInput.split("/");
-            newTask = new Event(splitted[0].substring(6).trim(),
-                                splitted[1].substring(5).trim(),
-                                splitted[2].substring(3).trim());
+            userInput = userInput.substring(6).trim();
+            if (!userInput.contains("/from")) {
+                throw new DKException("Format of command should match the following: 'event {description} /from {startDate} /to {endDate}' ");
+            }
+
+            if (!userInput.contains("/to")) {
+                throw new DKException("Format of command should match the following: 'event {description} /from {startDate} /to {endDate}' ");
+            }
+
+            String[] splitted = userInput.split("/from");
+
+            if (splitted.length != 2) {
+                throw new DKException("Format of command should match the following: 'event {description} /from {startDate} /to {endDate}' ");
+            }
+
+            if (splitted[1].trim().isEmpty()) {
+                throw new DKException("Missing Start and End Date, Format of command should match the following: 'event {description} /from {startDate} /to {endDate}'");
+            }
+            String description = splitted[0].trim();
+
+            if (description.isEmpty()) {
+                throw new DKException("Description is missing, Format of command should match the following: 'event {description} /from {startDate} /to {endDate}' ");
+            }
+
+            splitted = splitted[1].split("/to");
+            if (splitted.length != 2) {
+                throw new DKException("Format of command should match the following: 'event {description} /from {startDate} /to {endDate}' ");
+            }
+            String startDate = splitted[0].trim();
+            String endDate = splitted[1].trim();
+
+            if (startDate.isEmpty()) {
+                throw new DKException("StartDate is missing, Format of command should match the following: 'event {description} /from {startDate} /to {endDate}' ");
+            }
+            if (endDate.isEmpty()) {
+                throw new DKException("EndDate is missing, Format of command should match the following: 'event {description} /from {startDate} /to {endDate}' ");
+            }
+
+            newTask = new Event(description, startDate, endDate);
         }
         allTasks.add(newTask);
         System.out.println("Got it. I've added this task:\n" + newTask.toString());
