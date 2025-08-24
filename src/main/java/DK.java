@@ -57,6 +57,13 @@ public class DK {
                 } catch (DKException e) {
                     System.out.println(e.toString());
                 }
+            } else if (userInput.startsWith("delete ")) {
+                try {
+                    int index = Integer.parseInt(userInput.substring(7).trim());
+                    deleteItem(index);
+                } catch (DKException e) {
+                    System.out.println(e.toString());
+                }
             }
             else {
                 System.out.println("Invalid input, please try again");
@@ -186,6 +193,20 @@ public class DK {
         String s = allTasks.size() == 1 ? "" : "s";
         System.out.println("Now you have " + allTasks.size() + " task" + s + " in the list.");
         printLine();
+    }
+
+    public static void deleteItem(int index) throws DKException{
+        if (allTasks.isEmpty()) {
+            throw new DKException("There are no tasks in the list");
+        }
+
+        if (index <= 0 || index > allTasks.size()) {
+            throw new DKException("Please re-enter your command with a valid task number (1 - " + allTasks.size() + ")");
+        }
+        Task t = allTasks.remove(index - 1);
+        System.out.println("Noted! I've removed this task: \n" + t.toString());
+        String s = allTasks.size() == 1 ? "" : "s";
+        System.out.println("Now you have " + allTasks.size() + " task" + s + " in the list.");
     }
 
 }
