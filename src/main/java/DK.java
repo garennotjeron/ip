@@ -41,7 +41,7 @@ public class DK {
                     int index = Integer.parseInt(userInput.substring(5).trim());
                     markItem(index);
                 } catch (DKException e) {
-                    System.out.println(e);
+                    System.out.println(e.toString());
                 }
 
             } else if (userInput.startsWith("unmark ")) {
@@ -49,13 +49,13 @@ public class DK {
                     int index = Integer.parseInt(userInput.substring(7).trim());
                     unmarkItem(index);
                 } catch (DKException e) {
-                    System.out.println(e);
+                    System.out.println(e.toString());
                 }
             } else if (userInput.startsWith("todo ") || userInput.startsWith("deadline ") || userInput.startsWith("event ")) {
                 try {
                     addItem(userInput);
                 } catch (DKException e) {
-                    System.out.println(e);
+                    System.out.println(e.toString());
                 }
             }
             else {
