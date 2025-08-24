@@ -121,6 +121,9 @@ public class DK {
     public static void addItem(String userInput) throws DKException{
         Task newTask;
         if (userInput.startsWith("todo ")) {
+            if (userInput.substring(5).isEmpty()) {
+                throw new DKException("Description is missing, Format of command should match the following: 'todo {description}' " );
+            }
             newTask = new Todo(userInput.substring(5));
         } else if (userInput.startsWith("deadline ")) {
             if (!userInput.substring(9).contains("/by")) {
