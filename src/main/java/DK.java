@@ -37,11 +37,20 @@ public class DK {
             } else if (userInput.equals("list")) {
                 displayList();
             } else if (userInput.startsWith("mark ")) {
-                int index = Integer.parseInt(userInput.substring(5).trim());
-                markItem(index);
+                try {
+                    int index = Integer.parseInt(userInput.substring(5).trim());
+                    markItem(index);
+                } catch (DKException e) {
+                    System.out.println(e);
+                }
+
             } else if (userInput.startsWith("unmark ")) {
-                int index = Integer.parseInt(userInput.substring(7).trim());
-                unmarkItem(index);
+                try {
+                    int index = Integer.parseInt(userInput.substring(7).trim());
+                    unmarkItem(index);
+                } catch (DKException e) {
+                    System.out.println(e);
+                }
             } else if (userInput.startsWith("todo ") || userInput.startsWith("deadline ") || userInput.startsWith("event ")) {
                 addItem(userInput);
             }
@@ -59,7 +68,15 @@ public class DK {
         printLine();
     }
 
-    public static void markItem(int index) {
+    public static void markItem(int index) throws DKException{
+        if (allTasks.isEmpty()) {
+            throw new DKException("There are no tasks found in the list");
+        }
+
+        if (index <= 0 || index > allTasks.size()) {
+            throw new DKException("Please re-enter your command with a valid task number (1 - " + allTasks.size() + ")");
+        }
+
         Task t = allTasks.get(index - 1);
         if (t.getCompletion().equals(" ")) {
             t.updateCompletion();
@@ -71,7 +88,16 @@ public class DK {
         printLine();
     }
 
-    public static void unmarkItem(int index) {
+    public static void unmarkItem(int index) throws DKException{
+
+        if (allTasks.isEmpty()) {
+            throw new DKException("There are no tasks found in the list");
+        }
+
+        if (index <= 0 || index > allTasks.size()) {
+            throw new DKException("Please re-enter your command with a valid task number (1 - " + allTasks.size() + ")");
+        }
+
         Task t = allTasks.get(index - 1);
         if (t.getCompletion().equals("X")) {
             t.updateCompletion();
@@ -83,13 +109,22 @@ public class DK {
         printLine();
     }
 
-    public static void addItem(String userInput) {
+    public static void addItem(String userInput) throws DKException{
         Task newTask;
         if (userInput.startsWith("todo ")) {
             newTask = new Todo(userInput.substring(5));
         } else if (userInput.startsWith("deadline ")) {
-            String[] splitted = userInput.split("/");
-            newTask = new Deadline(splitted[0].substring(9).trim(), splitted[1].substring(3).trim());
+            if (!userInput.substring(9).contains("/by")) {
+                throw new DKException("Format of command should match the following: 'deadline {description} /by {deadline}' ");
+            }
+            String[] splitted = userInput.split("/by");
+            if (splitted[0].trim().isEmpty()) {
+                throw new DKException("Description is missing, Format of command should match the following: 'deadline {description} /by {deadline}' ");
+            }
+            if (splitted[1].trim().isEmpty()) {
+                throw new DKException("Deadline is missing, Format of command should match the following: 'deadline {description} /by {deadline}' ");
+            }
+            newTask = new Deadline(splitted[0].substring(9).trim(), splitted[1].trim());
         } else {
             String[] splitted = userInput.split("/");
             newTask = new Event(splitted[0].substring(6).trim(),
