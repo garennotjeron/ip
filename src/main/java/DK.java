@@ -1,3 +1,7 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -5,6 +9,9 @@ import java.util.ArrayList;
 public class DK {
 
     private static final List<Task> allTasks = new ArrayList<>(); // limit set for size of array for all user inputs
+
+    private static final String FILEPATH = "../../data/";
+    private static final String FILENAME = FILEPATH + "allTasks.txt";
 
     public static void main(String[] args) {
         printLine();
@@ -76,7 +83,6 @@ public class DK {
             System.out.println("There are no tasks in the list.");
             return;
         }
-
         System.out.println("Here are the tasks in your list:");
         for (int i = 1; i < allTasks.size() + 1; i++) {
             System.out.println(i + "." + allTasks.get(i-1).toString());
@@ -208,6 +214,38 @@ public class DK {
         String s = allTasks.size() == 1 ? "" : "s";
         System.out.println("Now you have " + allTasks.size() + " task" + s + " in the list.");
     }
+
+    public static void loadTasks() {
+        List<String> fromFile = new ArrayList<>();
+
+        try {
+            fromFile = Files.readAllLines(Paths.get(FILENAME));
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        for (String line : fromFile) {
+            try {
+                String[] splitted = line.split(",");
+                String category = splitted[0];
+                boolean isCompleted = splitted[1].equals("1");
+                if (category.equals("T")) {
+                    allTasks.add(new Todo(splitted[2],isCompleted));
+                } else if (category.equals("D")) {
+                    allTasks.add(new Deadline(splitted[2], isCompleted, splitted[3]));
+                } else if (category.equals("E")) {
+                    allTasks.add(new Event(splitted[2], isCompleted, splitted[3], splitted[4]));
+                } else {
+
+                }
+
+            } catch (Exception e) {
+                System.out.println("Skipping line with invalid format: " + line);
+                printLine();
+            }
+        }
+    }
+
+
 
 }
 
