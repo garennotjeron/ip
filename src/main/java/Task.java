@@ -25,4 +25,8 @@ public class Task {
     public String toString() {
         return "[" + this.getCompletion() + "] " + this.description;
     }
+
+    public String convertToFileFormat() {
+        return this.isCompleted + "," + this.description;
+    }
 }
