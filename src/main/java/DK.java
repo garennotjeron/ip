@@ -228,7 +228,7 @@ public class DK {
         try {
             fromFile = Files.readAllLines(Paths.get(FILENAME));
         } catch (IOException e) {
-            System.out.println(e);
+            System.out.println(e.toString());
         }
         for (String line : fromFile) {
             try {
