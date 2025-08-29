@@ -8,6 +8,11 @@ public class Task {
         this.isCompleted = false;
     }
 
+    public Task (String description, boolean isCompleted) {
+        this.description = description;
+        this.isCompleted = isCompleted;
+    }
+
     public void updateCompletion() {
         this.isCompleted = !isCompleted;
     }
@@ -19,5 +24,10 @@ public class Task {
     @Override
     public String toString() {
         return "[" + this.getCompletion() + "] " + this.description;
+    }
+
+    public String convertToFileFormat() {
+        int completedStatus = this.isCompleted ? 1 : 0;
+        return completedStatus + "," + this.description;
     }
 }

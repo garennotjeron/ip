@@ -1,3 +1,7 @@
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -5,6 +9,9 @@ import java.util.ArrayList;
 public class DK {
 
     private static final List<Task> allTasks = new ArrayList<>(); // limit set for size of array for all user inputs
+
+    private static final String FILEPATH = "data";
+    private static final String FILENAME = FILEPATH + "/allTasks.txt";
 
     public static void main(String[] args) {
         printLine();
@@ -29,6 +36,8 @@ public class DK {
     public static void echoInput() {
         String userInput = "";
         Scanner scanner = new Scanner(System.in);
+        setup();
+        loadTasks();
         while (!userInput.equals("bye")) {
             userInput = scanner.nextLine();
             printLine();
@@ -76,7 +85,6 @@ public class DK {
             System.out.println("There are no tasks in the list.");
             return;
         }
-
         System.out.println("Here are the tasks in your list:");
         for (int i = 1; i < allTasks.size() + 1; i++) {
             System.out.println(i + "." + allTasks.get(i-1).toString());
@@ -101,6 +109,7 @@ public class DK {
         } else {
             System.out.println("This task has already been marked as done");
         }
+        saveCurrentTasks();
         printLine();
     }
 
@@ -122,6 +131,7 @@ public class DK {
         } else {
             System.out.println("This task has already been marked as not done yet");
         }
+        saveCurrentTasks();
         printLine();
     }
 
@@ -192,6 +202,7 @@ public class DK {
         System.out.println("Got it. I've added this task:\n" + newTask.toString());
         String s = allTasks.size() == 1 ? "" : "s";
         System.out.println("Now you have " + allTasks.size() + " task" + s + " in the list.");
+        saveCurrentTasks();
         printLine();
     }
 
@@ -207,7 +218,69 @@ public class DK {
         System.out.println("Noted! I've removed this task: \n" + t.toString());
         String s = allTasks.size() == 1 ? "" : "s";
         System.out.println("Now you have " + allTasks.size() + " task" + s + " in the list.");
+        saveCurrentTasks();
+        printLine();
     }
 
+    public static void loadTasks() {
+        List<String> fromFile = new ArrayList<>();
+
+        try {
+            fromFile = Files.readAllLines(Paths.get(FILENAME));
+        } catch (IOException e) {
+            System.out.println(e.toString());
+        }
+        for (String line : fromFile) {
+            try {
+                String[] splitted = line.split(",");
+                String category = splitted[0];
+                boolean isCompleted = splitted[1].equals("1");
+                if (category.equals("T")) {
+                    allTasks.add(new Todo(splitted[2],isCompleted));
+                } else if (category.equals("D")) {
+                    allTasks.add(new Deadline(splitted[2], isCompleted, splitted[3]));
+                } else if (category.equals("E")) {
+                    allTasks.add(new Event(splitted[2], isCompleted, splitted[3], splitted[4]));
+                }
+            } catch (Exception e) {
+                System.out.println("Skipping line with invalid format: " + line);
+                printLine();
+            }
+        }
+    }
+
+    public static void saveCurrentTasks() {
+        List<String> currentTasks = new ArrayList<>();
+        for (Task t : allTasks) {
+            currentTasks.add(t.convertToFileFormat());
+        }
+        try {
+            Files.write(Paths.get(FILENAME), currentTasks);
+        } catch (IOException e ) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void setup() {
+        Path filePath = Paths.get(FILEPATH);
+        if (Files.notExists(filePath)) {
+            try {
+                Files.createDirectory(filePath);
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        Path file = Paths.get(FILENAME);
+        if (Files.notExists(file)) {
+            try {
+                Files.createFile(file);
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+
+    }
 }
 

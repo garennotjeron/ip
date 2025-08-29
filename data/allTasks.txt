@@ -1,1 +1,4 @@
-T,1,return book
+T,1,read book
+D,0,return book,October 27th
+E,0,project meeting,January 26th 10-11pm
+T,1,join interest group

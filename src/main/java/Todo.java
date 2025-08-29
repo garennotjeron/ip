@@ -3,8 +3,17 @@ public class Todo extends Task{
         super(description);
     }
 
+    public Todo (String description, boolean isCompleted) {
+        super(description, isCompleted);
+    }
+
     @Override
     public String toString() {
         return "[T]" + super.toString();
+    }
+
+    @Override
+    public String convertToFileFormat() {
+        return "T," + super.convertToFileFormat();
     }
 }
