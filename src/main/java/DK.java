@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.time.LocalDate;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -156,7 +157,7 @@ public class DK {
             if (splitted[1].trim().isEmpty()) {
                 throw new DKException("Deadline is missing, Format of command should match the following: 'deadline {description} /by {deadline}' ");
             }
-            newTask = new Deadline(splitted[0].substring(9).trim(), splitted[1].trim());
+            newTask = new Deadline(splitted[0].substring(9).trim(), LocalDate.parse(splitted[1].trim()));
         } else {
             userInput = userInput.substring(6).trim();
             if (!userInput.contains("/from")) {
@@ -196,7 +197,7 @@ public class DK {
                 throw new DKException("EndDate is missing, Format of command should match the following: 'event {description} /from {startDate} /to {endDate}' ");
             }
 
-            newTask = new Event(description, startDate, endDate);
+            newTask = new Event(description, LocalDate.parse(startDate), LocalDate.parse(endDate));
         }
         allTasks.add(newTask);
         System.out.println("Got it. I've added this task:\n" + newTask.toString());
@@ -238,9 +239,12 @@ public class DK {
                 if (category.equals("T")) {
                     allTasks.add(new Todo(splitted[2],isCompleted));
                 } else if (category.equals("D")) {
-                    allTasks.add(new Deadline(splitted[2], isCompleted, splitted[3]));
+                    LocalDate by = LocalDate.parse(splitted[3].trim());
+                    allTasks.add(new Deadline(splitted[2], isCompleted, by));
                 } else if (category.equals("E")) {
-                    allTasks.add(new Event(splitted[2], isCompleted, splitted[3], splitted[4]));
+                    LocalDate start = LocalDate.parse(splitted[3].trim());
+                    LocalDate end = LocalDate.parse(splitted[4].trim());
+                    allTasks.add(new Event(splitted[2], isCompleted, start, end));
                 }
             } catch (Exception e) {
                 System.out.println("Skipping line with invalid format: " + line);
