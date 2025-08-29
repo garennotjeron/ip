@@ -27,6 +27,7 @@ public class Task {
     }
 
     public String convertToFileFormat() {
-        return this.isCompleted + "," + this.description;
+        int completedStatus = this.isCompleted ? 1 : 0;
+        return completedStatus + "," + this.description;
     }
 }
