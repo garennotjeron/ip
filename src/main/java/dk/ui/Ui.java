@@ -1,3 +1,8 @@
+package dk.ui;
+
+import dk.parsers.Parser;
+import dk.storage.Storage;
+
 import java.util.Scanner;
 
 public class Ui {
@@ -36,7 +41,7 @@ public class Ui {
 
     public void printIntro() {
         printLine();
-        System.out.println("Hello! I'm DK\nWhat can I do for you?");
+        System.out.println("Hello! I'm dk.DK\nWhat can I do for you?");
         printLine();
     }
 

@@ -1,3 +1,5 @@
+package dk.exceptions;
+
 public class DKException extends Exception{
 
     public DKException (String message) {

@@ -1,3 +1,5 @@
+package dk.tasks;
+
 import java.util.List;
 
 public class TaskList {

@@ -1,3 +1,12 @@
+package dk.parsers;
+
+import dk.storage.Storage;
+import dk.exceptions.DKException;
+import dk.tasks.Deadline;
+import dk.tasks.Event;
+import dk.tasks.Task;
+import dk.tasks.Todo;
+
 import java.time.LocalDate;
 
 public class Parser {
@@ -39,6 +48,7 @@ public class Parser {
             try {
                 int index = Integer.parseInt(input.substring(7).trim());
                 deleteItem(index);
+                this.storage.saveCurrentTasks();
             } catch (DKException e) {
                 System.out.println(e.toString());
             }
@@ -118,7 +128,7 @@ public class Parser {
                 throw new DKException("Description is missing, Format of command should match the following: 'deadline {description} /by {deadline}' ");
             }
             if (splitted[1].trim().isEmpty()) {
-                throw new DKException("Deadline is missing, Format of command should match the following: 'deadline {description} /by {deadline}' ");
+                throw new DKException("dk.tasks.Deadline is missing, Format of command should match the following: 'deadline {description} /by {deadline}' ");
             }
             newTask = new Deadline(splitted[0].substring(9).trim(), LocalDate.parse(splitted[1].trim()));
         } else {

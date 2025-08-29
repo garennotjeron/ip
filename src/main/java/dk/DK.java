@@ -1,6 +1,7 @@
+package dk;
 
-import java.util.List;
-import java.util.ArrayList;
+import dk.storage.Storage;
+import dk.ui.Ui;
 
 public class DK {
 
