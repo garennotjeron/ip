@@ -15,6 +15,10 @@ public class Task {
         this.isCompleted = isCompleted;
     }
 
+    public String getDescription() {
+        return this.description;
+    }
+
     public void updateCompletion() {
         this.isCompleted = !isCompleted;
     }
