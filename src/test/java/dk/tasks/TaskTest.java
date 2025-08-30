@@ -2,7 +2,6 @@ package dk.tasks;
 
 import org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import dk.tasks.Task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
