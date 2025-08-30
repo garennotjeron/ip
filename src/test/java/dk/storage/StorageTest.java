@@ -7,15 +7,14 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StorageTest {
 
 
-    private String filePath = "data";
-    private String fileName = filePath + "/testing.txt";
+    private final String filePath = "data";
+    private final String fileName = filePath + "/testing.txt";
 
     @Test
     void creationOfFileWhenMissing_success() {
