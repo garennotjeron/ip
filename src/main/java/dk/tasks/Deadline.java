@@ -3,6 +3,9 @@ package dk.tasks;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Represents a Deadline Task, which consists of a deadline that the task should be completed by.
+ */
 public class Deadline extends Task {
     private LocalDate by;
 
@@ -16,11 +19,19 @@ public class Deadline extends Task {
         this.by = by;
     }
 
+    /**
+     * Returns a String representation of the Deadline object.
+     * @return A String representation of the Deadline object
+     */
     @Override
     public String toString() {
         return "[D]" + super.toString() + " (by: " + this.by.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + ")";
     }
 
+    /**
+     * Returns a String representation of the Deadline object to be saved into a file.
+     * @return A String representation of the Deadline object to be saved into a file
+     */
     @Override
     public String convertToFileFormat() {
         return "D," + super.convertToFileFormat() + "," +
