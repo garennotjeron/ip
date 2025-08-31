@@ -1,8 +1,7 @@
 package dk.tasks;
 
 public class Task {
-    private String description;
-
+    private final String description;
     private boolean isCompleted;
 
     public Task(String description) {
