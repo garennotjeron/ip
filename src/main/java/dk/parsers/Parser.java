@@ -12,7 +12,7 @@ import dk.tasks.Todo;
 
 public class Parser {
 
-    private Storage storage;
+    private final Storage storage;
 
     public Parser (Storage storage) {
         this.storage = storage;
