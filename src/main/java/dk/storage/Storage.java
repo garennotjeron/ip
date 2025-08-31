@@ -1,7 +1,5 @@
 package dk.storage;
 
-import dk.tasks.*;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
@@ -10,10 +8,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import dk.tasks.Deadline;
+import dk.tasks.Event;
+import dk.tasks.Task;
+import dk.tasks.TaskList;
+import dk.tasks.Todo;
+
+
 public class Storage {
 
-    private TaskList allTasks;
-    private Path fileName;
+    private final TaskList allTasks;
+    private final Path fileName;
 
     public Storage (String path, String name) {
         Path filePath = Paths.get(path);

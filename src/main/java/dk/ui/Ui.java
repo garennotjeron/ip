@@ -1,14 +1,15 @@
 package dk.ui;
 
-import dk.parsers.Parser;
-import dk.storage.Storage;
-
 import java.util.Scanner;
+
+import dk.storage.Storage;
+import dk.parsers.Parser;
+
 
 public class Ui {
 
-    private Scanner scanner;
-    private Parser parser;
+    private final Scanner scanner;
+    private final Parser parser;
 
     public Ui(Storage storage){
         this.scanner = new Scanner(System.in);
