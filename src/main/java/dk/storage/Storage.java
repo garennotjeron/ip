@@ -15,6 +15,9 @@ import dk.tasks.TaskList;
 import dk.tasks.Todo;
 
 
+/**
+ * Handles the loading of tasks from a file and saving them into the file.
+ */
 public class Storage {
 
     private final TaskList allTasks;
@@ -42,10 +45,18 @@ public class Storage {
         this.allTasks = loadTasks();
     }
 
+    /**
+     * Returns a TaskList object that contains the current list of tasks.
+     * @return A TaskList object that contains the current list of tasks
+     */
     public TaskList getAllTasks() {
         return this.allTasks;
     }
 
+    /**
+     * Loads the tasks from the file into the DK Chatbot.
+     * @return A TaskList object that contains the current list of tasks
+     */
     public TaskList loadTasks() {
         List<String> fromFile = new ArrayList<>();
         List<Task> taskList = new ArrayList<>();
@@ -76,6 +87,9 @@ public class Storage {
         return new TaskList(taskList);
     }
 
+    /**
+     * Saves the current list of tasks into a file in a specified format.
+     */
     public void saveCurrentTasks() {
         List<String> currentTasks = new ArrayList<>();
         for (Task t : this.allTasks.getTasks()) {

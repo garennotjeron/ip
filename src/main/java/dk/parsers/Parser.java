@@ -10,6 +10,9 @@ import dk.tasks.Task;
 import dk.tasks.Todo;
 
 
+/**
+ * Handles the logic and makes sense of the user's input command.
+ */
 public class Parser {
 
     private final Storage storage;
@@ -18,6 +21,12 @@ public class Parser {
         this.storage = storage;
     }
 
+    /**
+     * Takes in the user's input and processes it as a command,
+     * executing the operation as per request.
+     *
+     * @param input Input command provided by the user
+     */
     public void executeCommand(String input) {
         if (input.equals("list")) {
             displayList();
@@ -58,6 +67,9 @@ public class Parser {
         }
     }
 
+    /**
+     * Prints the list of tasks that is tagged to the Storage variable in the Parser object.
+     */
     public void displayList() {
         if (this.storage.getAllTasks().isEmpty()) {
             System.out.println("There are no tasks in the list.");
@@ -69,6 +81,12 @@ public class Parser {
         }
     }
 
+    /**
+     * Marks the corresponding item based on the index as completed.
+     * @param index The index of the task to be marked as completed
+     * @throws DKException If the list of tasks is found to be empty and
+     * if the index given exceeds the number of items in the list
+     */
     public void markItem(int index) throws DKException {
         if (this.storage.getAllTasks().isEmpty()) {
             throw new DKException("There are no tasks found in the list");
@@ -89,6 +107,12 @@ public class Parser {
         }
     }
 
+    /**
+     * Marks the corresponding item based on the index as not completed.
+     * @param index The index of the item to be mark as not completed
+     * @throws DKException If the list of tasks is found to be empty and
+     * if the index given exceeds the number of items in the list
+     */
     public void unmarkItem(int index) throws DKException {
         if (this.storage.getAllTasks().isEmpty()) {
             throw new DKException("There are no tasks found in the list");
@@ -109,6 +133,11 @@ public class Parser {
         }
     }
 
+    /**
+     * Creates and adds an item depending on the user input to the task list.
+     * @param input The description of the task given by the user
+     * @throws DKException If input given by user is invalid or is in the incorrect format
+     */
     public void addItem(String input) throws DKException {
         Task newTask;
         if (input.startsWith("todo ")) {
@@ -187,6 +216,12 @@ public class Parser {
         System.out.println("Now you have " + this.storage.getAllTasks().getSize() + " task" + s + " in the list.");
     }
 
+    /**
+     * Deletes the corresponding item from the task list based on the index given by the user.
+     * @param index The index of the item to be deleted from the task list
+     * @throws DKException If there are no tasks in the list or
+     * if the index given exceeds the number of tasks in the list
+     */
     public void deleteItem(int index) throws DKException {
         if (this.storage.getAllTasks().isEmpty()) {
             throw new DKException("There are no tasks in the list");

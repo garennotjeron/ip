@@ -6,6 +6,9 @@ import dk.storage.Storage;
 import dk.parsers.Parser;
 
 
+/**
+ * Deals with interactions involving the user and handles the UI of DK Chatbot.
+ */
 public class Ui {
 
     private final Scanner scanner;
@@ -16,11 +19,17 @@ public class Ui {
         this.parser = new Parser(storage);
     }
 
+    /**
+     * Starts up the DK Chatbot process.
+     */
     public void start() {
         printIntro();
         beginInput();
     }
 
+    /**
+     * Prompts the user for their input. This process will loop until the user sends "bye" as their input.
+     */
     public void beginInput() {
         String input = "";
         while (!input.equals("bye")) {
@@ -36,16 +45,25 @@ public class Ui {
 
     }
 
+    /**
+     * Prints out a line for separation purposes.
+     */
     public void printLine() {
         System.out.println("__________________________________");
     }
 
+    /**
+     * Prints out the introduction message to the user.
+     */
     public void printIntro() {
         printLine();
         System.out.println("Hello! I'm DK\nWhat can I do for you?");
         printLine();
     }
 
+    /**
+     * Prints out the ending message to the user.
+     */
     public void printEnding() {
         printLine();
         System.out.println("Bye byeee. Hope to see you again soon!");
