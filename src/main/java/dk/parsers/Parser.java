@@ -5,6 +5,7 @@ import dk.exceptions.DKException;
 import dk.tasks.Deadline;
 import dk.tasks.Event;
 import dk.tasks.Task;
+import dk.tasks.TaskList;
 import dk.tasks.Todo;
 
 import java.time.LocalDate;
@@ -49,6 +50,12 @@ public class Parser {
                 int index = Integer.parseInt(input.substring(7).trim());
                 deleteItem(index);
                 this.storage.saveCurrentTasks();
+            } catch (DKException e) {
+                System.out.println(e.toString());
+            }
+        } else if (input.startsWith("find ")) {
+            try {
+                findItems(input);
             } catch (DKException e) {
                 System.out.println(e.toString());
             }
@@ -190,5 +197,24 @@ public class Parser {
         System.out.println("Noted! I've removed this task: \n" + t.toString());
         String s = this.storage.getAllTasks().getSize() == 1 ? "" : "s";
         System.out.println("Now you have " + this.storage.getAllTasks().getSize() + " task" + s + " in the list.");
+    }
+
+    /**
+     * Finds the tasks in the list that have the keyword in their description.
+     * @param input The input keyed in by the user
+     * @throws DKException If the keyword is blank or if there are no tasks in the list that match the given keyword
+     */
+    public void findItems(String input) throws DKException{
+        String keyword = input.substring(5).trim();
+        if (keyword.isEmpty()) {
+            throw new DKException("No keyword given, please try again with the following output:"
+                    + "find {keyword}");
+        }
+        TaskList includesKeyword = new TaskList(this.storage.getAllTasks().filterTasks(keyword));
+        if (includesKeyword.isEmpty()) {
+            throw new DKException("There were no tasks that match your keyword, please try again.");
+        }
+        System.out.println("Here are the matching tasks in your list:");
+        System.out.println(includesKeyword.toString());
     }
 }
