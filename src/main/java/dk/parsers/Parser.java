@@ -84,7 +84,8 @@ public class Parser {
      */
     public String displayList() {
         if (this.storage.getAllTasks().isEmpty()) {
-            return String.valueOf("There are no tasks in the list.");
+            String output = "There are no tasks in the list.";
+            return output;
         }
         StringBuilder output = new StringBuilder(String.valueOf("Here are the tasks in your list:\n"));
         for (int i = 1; i < this.storage.getAllTasks().getSize() + 1; i++) {
@@ -130,7 +131,6 @@ public class Parser {
      * if the index given exceeds the number of items in the list
      */
     public String unmarkItem(int index) throws DKException {
-        String output = "";
         if (this.storage.getAllTasks().isEmpty()) {
             throw new DKException("There are no tasks found in the list");
         }
@@ -141,6 +141,7 @@ public class Parser {
         }
 
         Task t = this.storage.getAllTasks().getTask(index - 1);
+        String output;
         if (t.getCompletion().equals("X")) {
             t.updateCompletion();
             output = "Nice! I've marked this task as not done yet:\n" + index + "." + t.toString();
