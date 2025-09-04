@@ -28,13 +28,14 @@ public class Parser {
      *
      * @param input Input command provided by the user
      */
-    public void executeCommand(String input) {
+    public String executeCommand(String input) {
+        String output = "";
         if (input.equals("list")) {
-            displayList();
+            output = displayList();
         } else if (input.startsWith("mark ")) {
             try {
                 int index = Integer.parseInt(input.substring(5).trim());
-                markItem(index);
+                output = markItem(index);
                 this.storage.saveCurrentTasks();
             } catch (DKException e) {
                 System.out.println(e.toString());
@@ -42,7 +43,7 @@ public class Parser {
         } else if (input.startsWith("unmark ")) {
             try {
                 int index = Integer.parseInt(input.substring(7).trim());
-                unmarkItem(index);
+                output = unmarkItem(index);
                 this.storage.saveCurrentTasks();
             } catch (DKException e) {
                 System.out.println(e.toString());
@@ -50,7 +51,7 @@ public class Parser {
 
         } else if (input.startsWith("todo ") || input.startsWith("deadline ") || input.startsWith("event ")) {
             try {
-                addItem(input);
+                output = addItem(input);
                 this.storage.saveCurrentTasks();
             } catch (DKException e) {
                 System.out.println(e.toString());
@@ -58,34 +59,43 @@ public class Parser {
         } else if (input.startsWith("delete ")) {
             try {
                 int index = Integer.parseInt(input.substring(7).trim());
-                deleteItem(index);
+                output = deleteItem(index);
                 this.storage.saveCurrentTasks();
             } catch (DKException e) {
                 System.out.println(e.toString());
             }
         } else if (input.startsWith("find ")) {
             try {
-                findItems(input);
+                output = findItems(input);
             } catch (DKException e) {
                 System.out.println(e.toString());
             }
+        } else if (input.equals("bye")) {
+            output = "Bye byeee, hope to see you again";
         } else {
-            System.out.println("Invalid input, please try again.");
+            output = "Invalid input, please try again.";
         }
+
+        return output;
     }
 
     /**
      * Prints the list of tasks that is tagged to the Storage variable in the Parser object.
      */
-    public void displayList() {
+    public String displayList() {
+        StringBuilder output = new StringBuilder();
         if (this.storage.getAllTasks().isEmpty()) {
-            System.out.println("There are no tasks in the list.");
-            return;
+            output = new StringBuilder("There are no tasks in the list.");
+            return output.toString();
         }
-        System.out.println("Here are the tasks in your list:");
+        output = new StringBuilder("Here are the tasks in your list:\n");
         for (int i = 1; i < this.storage.getAllTasks().getSize() + 1; i++) {
-            System.out.println(i + "." + this.storage.getAllTasks().getTask(i-1).toString());
+            output.append(i).append(".").append(this.storage.getAllTasks().getTask(i - 1).toString());
+            if (i < this.storage.getAllTasks().getSize()) {
+                output.append("\n");
+            }
         }
+        return output.toString();
     }
 
     /**
@@ -94,7 +104,8 @@ public class Parser {
      * @throws DKException If the list of tasks is found to be empty and
      * if the index given exceeds the number of items in the list
      */
-    public void markItem(int index) throws DKException {
+    public String markItem(int index) throws DKException {
+        String output = "";
         if (this.storage.getAllTasks().isEmpty()) {
             throw new DKException("There are no tasks found in the list");
         }
@@ -107,11 +118,11 @@ public class Parser {
         Task t = this.storage.getAllTasks().getTask(index-1);
         if (t.getCompletion().equals(" ")) {
             t.updateCompletion();
-            System.out.println("Nice! I've marked this task as done:");
-            System.out.println(index + "." + t.toString());
+            output = "Nice! I've marked this task as done:\n" + index + "." + t.toString() ;
         } else {
-            System.out.println("This task has already been marked as done");
+            output = "This task has already been marked as done";
         }
+        return output;
     }
 
     /**
@@ -120,7 +131,8 @@ public class Parser {
      * @throws DKException If the list of tasks is found to be empty and
      * if the index given exceeds the number of items in the list
      */
-    public void unmarkItem(int index) throws DKException {
+    public String unmarkItem(int index) throws DKException {
+        String output = "";
         if (this.storage.getAllTasks().isEmpty()) {
             throw new DKException("There are no tasks found in the list");
         }
@@ -133,11 +145,11 @@ public class Parser {
         Task t = this.storage.getAllTasks().getTask(index - 1);
         if (t.getCompletion().equals("X")) {
             t.updateCompletion();
-            System.out.println("Nice! I've marked this task as not done yet:");
-            System.out.println(index + "." + t.toString());
+            output = "Nice! I've marked this task as not done yet:\n" + index + "." + t.toString();
         } else {
-            System.out.println("This task has already been marked as not done yet");
+            output ="This task has already been marked as not done yet";
         }
+        return output;
     }
 
     /**
@@ -145,8 +157,9 @@ public class Parser {
      * @param input The description of the task given by the user
      * @throws DKException If input given by user is invalid or is in the incorrect format
      */
-    public void addItem(String input) throws DKException {
+    public String addItem(String input) throws DKException {
         Task newTask;
+        String output = "";
         if (input.startsWith("todo ")) {
             if (input.substring(5).isEmpty()) {
                 throw new DKException("Description is missing, " +
@@ -218,9 +231,10 @@ public class Parser {
         }
 
         this.storage.getAllTasks().addTask(newTask);
-        System.out.println("Got it. I've added this task:\n" + newTask.toString());
-        String s = this.storage.getAllTasks().getSize() == 1 ? "" : "s";
-        System.out.println("Now you have " + this.storage.getAllTasks().getSize() + " task" + s + " in the list.");
+        output = "Got it. I've added this task:\n" + newTask.toString() + "\n";
+        String plural = this.storage.getAllTasks().getSize() == 1 ? "" : "s";
+        output += "Now you have " + this.storage.getAllTasks().getSize() + " task" + plural + " in the list.";
+        return output;
     }
 
     /**
@@ -229,7 +243,8 @@ public class Parser {
      * @throws DKException If there are no tasks in the list or
      * if the index given exceeds the number of tasks in the list
      */
-    public void deleteItem(int index) throws DKException {
+    public String deleteItem(int index) throws DKException {
+        String output = "";
         if (this.storage.getAllTasks().isEmpty()) {
             throw new DKException("There are no tasks in the list");
         }
@@ -239,9 +254,10 @@ public class Parser {
                     + this.storage.getAllTasks().getSize() + ")");
         }
         Task t = this.storage.getAllTasks().removeTask(index - 1);
-        System.out.println("Noted! I've removed this task: \n" + t.toString());
-        String s = this.storage.getAllTasks().getSize() == 1 ? "" : "s";
-        System.out.println("Now you have " + this.storage.getAllTasks().getSize() + " task" + s + " in the list.");
+        output = "Noted! I've removed this task: \n" + t.toString() + "\n";
+        String plural = this.storage.getAllTasks().getSize() == 1 ? "" : "s";
+        output += "Now you have " + this.storage.getAllTasks().getSize() + " task" + plural + " in the list.";
+        return output;
     }
 
     /**
@@ -249,7 +265,8 @@ public class Parser {
      * @param input The input keyed in by the user
      * @throws DKException If the keyword is blank or if there are no tasks in the list that match the given keyword
      */
-    public void findItems(String input) throws DKException{
+    public String findItems(String input) throws DKException{
+        String output = "";
         String keyword = input.substring(5).trim();
         if (keyword.isEmpty()) {
             throw new DKException("No keyword given, please try again with the following output:"
@@ -259,7 +276,8 @@ public class Parser {
         if (includesKeyword.isEmpty()) {
             throw new DKException("There were no tasks that match your keyword, please try again.");
         }
-        System.out.println("Here are the matching tasks in your list:");
-        System.out.println(includesKeyword.toString());
+        output = "Here are the matching tasks in your list:\n";
+        output += includesKeyword.toString();
+        return output;
     }
 }

@@ -35,12 +35,9 @@ public class Ui {
         while (!input.equals("bye")) {
             input = this.scanner.nextLine();
             printLine();
-            if (input.equals("bye")){
-                printEnding();
-            } else {
-                parser.executeCommand(input);
-                printLine();
-            }
+            String commandOutput = parser.executeCommand(input);
+            System.out.println(commandOutput);
+            printLine();
         }
 
     }
@@ -58,15 +55,6 @@ public class Ui {
     public void printIntro() {
         printLine();
         System.out.println("Hello! I'm DK\nWhat can I do for you?");
-        printLine();
-    }
-
-    /**
-     * Prints out the ending message to the user.
-     */
-    public void printEnding() {
-        printLine();
-        System.out.println("Bye byeee. Hope to see you again soon!");
         printLine();
     }
 }
