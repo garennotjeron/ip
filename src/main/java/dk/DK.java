@@ -19,12 +19,7 @@ public class DK {
 
     public static void setUp() {
         Storage storage = new Storage(FILE_PATH, FILE_NAME);
-        Ui ui =  new Ui (storage);
         parser = new Parser(storage);
-    }
-
-    public static void startTextUi(Ui ui){
-        ui.start();
     }
 
     public static void startGui() {
