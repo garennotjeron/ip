@@ -20,14 +20,6 @@ public class Ui {
     }
 
     /**
-     * Starts up the DK Chatbot process.
-     */
-    public void start() {
-        printIntro();
-        beginInput();
-    }
-
-    /**
      * Prompts the user for their input. This process will loop until the user sends "bye" as their input.
      */
     public void beginInput() {

@@ -3,7 +3,6 @@ package dk;
 import dk.parsers.Parser;
 import dk.storage.Storage;
 import dk.ui.Main;
-import dk.ui.Ui;
 import javafx.application.Application;
 
 public class DK {
