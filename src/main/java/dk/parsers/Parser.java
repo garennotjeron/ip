@@ -81,6 +81,7 @@ public class Parser {
 
     /**
      * Prints the list of tasks that is tagged to the Storage variable in the Parser object.
+     * @return A String representation of all tasks in the list
      */
     public String displayList() {
         if (this.storage.getAllTasks().isEmpty()) {
@@ -102,6 +103,7 @@ public class Parser {
      * @param index The index of the task to be marked as completed
      * @throws DKException If the list of tasks is found to be empty and
      * if the index given exceeds the number of items in the list
+     * @return A String representation indicating the status of the markItem Command
      */
     public String markItem(int index) throws DKException {
         String output = "";
@@ -129,6 +131,7 @@ public class Parser {
      * @param index The index of the item to be mark as not completed
      * @throws DKException If the list of tasks is found to be empty and
      * if the index given exceeds the number of items in the list
+     * @return A String representation indicating the status of the unmarkItem Command
      */
     public String unmarkItem(int index) throws DKException {
         if (this.storage.getAllTasks().isEmpty()) {
@@ -155,6 +158,7 @@ public class Parser {
      * Creates and adds an item depending on the user input to the task list.
      * @param input The description of the task given by the user
      * @throws DKException If input given by user is invalid or is in the incorrect format
+     * @return A String representation indicating the status of the addItem Command
      */
     public String addItem(String input) throws DKException {
         Task newTask;
@@ -240,6 +244,7 @@ public class Parser {
      * @param index The index of the item to be deleted from the task list
      * @throws DKException If there are no tasks in the list or
      * if the index given exceeds the number of tasks in the list
+     * @return A String representation indicating the status of the deleteItem Command
      */
     public String deleteItem(int index) throws DKException {
         if (this.storage.getAllTasks().isEmpty()) {
@@ -261,6 +266,7 @@ public class Parser {
      * Finds the tasks in the list that have the keyword in their description.
      * @param input The input keyed in by the user
      * @throws DKException If the keyword is blank or if there are no tasks in the list that match the given keyword
+     * @return A String representation indicating the status of the findItems Command
      */
     public String findItems(String input) throws DKException{
         String keyword = input.substring(5).trim();
