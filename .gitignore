@@ -16,7 +16,7 @@ bin/
 /text-ui-test/ACTUAL.TXT
 text-ui-test/EXPECTED-UNIX.TXT
 
-data/
+/data/
 /testing.txt
 /filled.txt
 /allTasks.txt
