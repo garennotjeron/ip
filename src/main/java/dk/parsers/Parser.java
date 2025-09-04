@@ -83,12 +83,10 @@ public class Parser {
      * Prints the list of tasks that is tagged to the Storage variable in the Parser object.
      */
     public String displayList() {
-        StringBuilder output = new StringBuilder();
         if (this.storage.getAllTasks().isEmpty()) {
-            output = new StringBuilder("There are no tasks in the list.");
-            return output.toString();
+            return String.valueOf("There are no tasks in the list.");
         }
-        output = new StringBuilder("Here are the tasks in your list:\n");
+        StringBuilder output = new StringBuilder(String.valueOf("Here are the tasks in your list:\n"));
         for (int i = 1; i < this.storage.getAllTasks().getSize() + 1; i++) {
             output.append(i).append(".").append(this.storage.getAllTasks().getTask(i - 1).toString());
             if (i < this.storage.getAllTasks().getSize()) {
@@ -159,7 +157,6 @@ public class Parser {
      */
     public String addItem(String input) throws DKException {
         Task newTask;
-        String output = "";
         if (input.startsWith("todo ")) {
             if (input.substring(5).isEmpty()) {
                 throw new DKException("Description is missing, " +
@@ -231,7 +228,7 @@ public class Parser {
         }
 
         this.storage.getAllTasks().addTask(newTask);
-        output = "Got it. I've added this task:\n" + newTask.toString() + "\n";
+        String output = "Got it. I've added this task:\n" + newTask.toString() + "\n";
         String plural = this.storage.getAllTasks().getSize() == 1 ? "" : "s";
         output += "Now you have " + this.storage.getAllTasks().getSize() + " task" + plural + " in the list.";
         return output;
@@ -244,7 +241,6 @@ public class Parser {
      * if the index given exceeds the number of tasks in the list
      */
     public String deleteItem(int index) throws DKException {
-        String output = "";
         if (this.storage.getAllTasks().isEmpty()) {
             throw new DKException("There are no tasks in the list");
         }
@@ -254,7 +250,7 @@ public class Parser {
                     + this.storage.getAllTasks().getSize() + ")");
         }
         Task t = this.storage.getAllTasks().removeTask(index - 1);
-        output = "Noted! I've removed this task: \n" + t.toString() + "\n";
+        String output = "Noted! I've removed this task: \n" + t.toString() + "\n";
         String plural = this.storage.getAllTasks().getSize() == 1 ? "" : "s";
         output += "Now you have " + this.storage.getAllTasks().getSize() + " task" + plural + " in the list.";
         return output;
@@ -266,7 +262,6 @@ public class Parser {
      * @throws DKException If the keyword is blank or if there are no tasks in the list that match the given keyword
      */
     public String findItems(String input) throws DKException{
-        String output = "";
         String keyword = input.substring(5).trim();
         if (keyword.isEmpty()) {
             throw new DKException("No keyword given, please try again with the following output:"
@@ -276,7 +271,7 @@ public class Parser {
         if (includesKeyword.isEmpty()) {
             throw new DKException("There were no tasks that match your keyword, please try again.");
         }
-        output = "Here are the matching tasks in your list:\n";
+        String output = "Here are the matching tasks in your list:\n";
         output += includesKeyword.toString();
         return output;
     }
