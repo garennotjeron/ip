@@ -2,13 +2,15 @@ package dk.ui;
 
 import dk.DK;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
+/**
+ * Controller for the main GUI.
+ */
 public class MainWindow extends AnchorPane {
     @FXML
     private ScrollPane scrollPane;
@@ -21,6 +23,7 @@ public class MainWindow extends AnchorPane {
 
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/dk.jpg"));
     private Image chatbotImage = new Image(this.getClass().getResourceAsStream("/images/donkeykong.jpg"));
+
 
     @FXML
     public void initialize() {
