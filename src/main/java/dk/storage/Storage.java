@@ -79,6 +79,8 @@ public class Storage {
                     LocalDate start = LocalDate.parse(splitted[3].trim());
                     LocalDate end = LocalDate.parse(splitted[4].trim());
                     taskList.add(new Event(splitted[2], isCompleted, start, end));
+                } else {
+                    System.out.println("Skipping line with invalid format: " + line);
                 }
             } catch (Exception e) {
                 System.out.println("Skipping line with invalid format: " + line);
