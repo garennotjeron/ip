@@ -19,6 +19,7 @@ public class Parser {
     private final Storage storage;
 
     public Parser (Storage storage) {
+        assert storage != null : "Storage parameter cannot be null";
         this.storage = storage;
     }
 

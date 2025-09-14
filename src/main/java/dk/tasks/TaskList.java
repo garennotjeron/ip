@@ -20,6 +20,7 @@ public class TaskList {
      * @return The Task at the specified position
      */
     public Task getTask(int index) {
+        assert index >= 0 && index <= this.getSize() : "Index given is out of bounds";
         return this.allTasks.get(index);
     }
 
@@ -36,6 +37,7 @@ public class TaskList {
      * @param t The Task object to be added to the list
      */
     public void addTask(Task t) {
+        assert t != null : "Task given cannot be null";
         this.allTasks.add(t);
     }
 
