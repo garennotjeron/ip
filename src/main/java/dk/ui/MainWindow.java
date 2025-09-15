@@ -28,7 +28,7 @@ public class MainWindow extends AnchorPane {
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
-        String introMessage = "Hello! I'm DK\nWhat can I do for you?";
+        String introMessage = "Hello! I'm DK\nWhat can I do for you?\nType 'help' for a list of commands you can use! ";
         dialogContainer.getChildren().addAll(
                 DialogBox.getDkDialog(introMessage, chatbotImage)
         );
