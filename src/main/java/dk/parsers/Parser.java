@@ -71,8 +71,8 @@ public class Parser {
             } catch (DKException e) {
                 System.out.println(e.toString());
             }
-        } else if (input.equals("bye")) {
-            output = "Bye byeee, hope to see you again";
+        } else if (input.equals("help")) {
+            output = displayHelp();
         } else {
             output = "Invalid input, please try again.";
         }
@@ -256,5 +256,21 @@ public class Parser {
         String output = "Here are the matching tasks in your list:\n";
         output += includesKeyword.toString();
         return output;
+    }
+
+    public String displayHelp() {
+        return """
+                Here is a list of commands for you:
+                1. help - Prints a list of available commands
+                2. list - Displays all tasks
+                3. todo {description} - Creates a Todo Task
+                4. deadline {description} /by {deadline} - Creates a Deadline Task
+                5. event {description} /from {startDate} /to {endDate} - Creates an Event task
+                6. mark {number} - Marks specified task as completed
+                7. unmark {number} - Marks specified task as not completed
+                8. delete {number} - Deletes specified task based on index
+                9. find {keyword} - Finds all tasks that include the keyword
+                10. bye - Closes the application
+                """;
     }
 }
