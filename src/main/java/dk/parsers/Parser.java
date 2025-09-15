@@ -178,7 +178,7 @@ public class Parser {
                 throw new DKException(deadlineFormatError);
             }
             newTask = new Deadline(splitted[0].substring(9).trim(), LocalDate.parse(splitted[1].trim()));
-        } else {
+        } else if (input.startsWith("event ")){
             String eventFormatError = "Format of command should match the following:" +
                     " 'event {description} /from {startDate} /to {endDate}' ";
 
@@ -204,6 +204,8 @@ public class Parser {
                 throw new DKException(eventFormatError);
             }
             newTask = new Event(description, LocalDate.parse(startDate), LocalDate.parse(endDate));
+        } else {
+            throw new DKException("Invalid input, please try again");
         }
         this.storage.getAllTasks().addTask(newTask);
         String output = "Got it. I've added this task:\n" + newTask.toString() + "\n";
