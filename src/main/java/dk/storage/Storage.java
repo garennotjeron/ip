@@ -70,18 +70,27 @@ public class Storage {
                 String[] splitted = line.split(",");
                 String category = splitted[0];
                 boolean isCompleted = splitted[1].equals("1");
-                if (category.equals("T")) {
-                    taskList.add(new Todo(splitted[2], isCompleted));
-                } else if (category.equals("D")) {
-                    LocalDate by = LocalDate.parse(splitted[3].trim());
-                    taskList.add(new Deadline(splitted[2], isCompleted, by));
-                } else if (category.equals("E")) {
-                    LocalDate start = LocalDate.parse(splitted[3].trim());
-                    LocalDate end = LocalDate.parse(splitted[4].trim());
-                    taskList.add(new Event(splitted[2], isCompleted, start, end));
-                } else {
-                    System.out.println("Skipping line with invalid format: " + line);
+                switch (category) {
+                    case "T": {
+                        taskList.add(new Todo(splitted[2].trim(), isCompleted));
+                        break;
+                    }
+                    case "D": {
+                        LocalDate deadline = LocalDate.parse(splitted[3].trim());
+                        taskList.add(new Deadline(splitted[2].trim(), isCompleted, deadline));
+                        break;
+                    }
+                    case "E": {
+                        LocalDate startDate = LocalDate.parse(splitted[3].trim());
+                        LocalDate endDate = LocalDate.parse(splitted[4].trim());
+                        taskList.add(new Event(splitted[2].trim(), isCompleted, startDate, endDate));
+                        break;
+                    }
+                    default:
+                        System.out.println("Skipping line with invalid format: " + line);
+                        break;
                 }
+
             } catch (Exception e) {
                 System.out.println("Skipping line with invalid format: " + line);
             }
