@@ -27,7 +27,7 @@ and engaging output via the GUI.
 1. Ensure that Java `17` or above is installed on your computer.
    - For **MAC Users:** Ensure that the precise JDK version is correctly installed based on 
    [this link](https://se-education.org/guides/tutorials/javaInstallationMac.html)
-2. Download the latest `.jar` file from [here]()
+2. Download the latest `.jar` file from [here](https://github.com/garennotjeron/ip/releases)
 
 3. Copy the file to your preferred folder for your own DK Chatbot!
 
