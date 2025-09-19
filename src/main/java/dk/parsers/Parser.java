@@ -1,5 +1,6 @@
 package dk.parsers;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 
 import dk.exceptions.DKException;
@@ -183,7 +184,11 @@ public class Parser {
             if (splitted.length != 2 || splitted[0].trim().isEmpty() || splitted[1].trim().isEmpty()) {
                 return deadlineFormatError;
             }
-            newTask = new Deadline(splitted[0].substring(9).trim(), LocalDate.parse(splitted[1].trim()));
+            try {
+                newTask = new Deadline(splitted[0].substring(9).trim(), LocalDate.parse(splitted[1].trim()));
+            } catch (DateTimeException e) {
+                return "Invalid Date entered, please try again.";
+            }
         } else if (input.startsWith("event ")){
             String eventFormatError = "Format of command should match the following:" +
                     " 'event {description} /from {startDate} /to {endDate}' ";
@@ -209,7 +214,12 @@ public class Parser {
             if (startDate.isEmpty() || endDate.isEmpty()) {
                 return eventFormatError;
             }
-            newTask = new Event(description, LocalDate.parse(startDate), LocalDate.parse(endDate));
+
+            try {
+                newTask = new Event(description, LocalDate.parse(startDate), LocalDate.parse(endDate));
+            } catch (DateTimeException e) {
+                return "Invalid Date entered, please try again.";
+            }
         } else {
             return "Invalid input, please try again";
         }
