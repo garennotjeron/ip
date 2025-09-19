@@ -40,6 +40,8 @@ public class Parser {
                 this.storage.saveCurrentTasks();
             } catch (DKException e) {
                 System.out.println(e.toString());
+            } catch (NumberFormatException e) {
+                output = "Invalid input for task number! Please try again";
             }
         } else if (input.startsWith("unmark ")) {
             try {
@@ -48,6 +50,8 @@ public class Parser {
                 this.storage.saveCurrentTasks();
             } catch (DKException e) {
                 System.out.println(e.toString());
+            } catch (NumberFormatException e) {
+                output = "Invalid input for task number! Please try again";
             }
 
         } else if (input.startsWith("todo ") || input.startsWith("deadline ") || input.startsWith("event ")) {
@@ -110,12 +114,12 @@ public class Parser {
     public String markItem(int index) throws DKException {
         String output = "";
         if (this.storage.getAllTasks().isEmpty()) {
-            throw new DKException("There are no tasks found in the list");
+            return "There are no tasks found in the list";
         }
 
         if (index <= 0 || index > this.storage.getAllTasks().getSize()) {
-            throw new DKException("Please re-enter your command with a valid task number (1 - "
-                    + this.storage.getAllTasks().getSize() + ")");
+            return "Please re-enter your command with a valid task number (1 - "
+                    + this.storage.getAllTasks().getSize() + ")";
         }
 
         Task t = this.storage.getAllTasks().getTask(index-1);
@@ -137,12 +141,12 @@ public class Parser {
      */
     public String unmarkItem(int index) throws DKException {
         if (this.storage.getAllTasks().isEmpty()) {
-            throw new DKException("There are no tasks found in the list");
+            return "There are no tasks found in the list";
         }
 
         if (index <= 0 || index > this.storage.getAllTasks().getSize()) {
-            throw new DKException("Please re-enter your command with a valid task number (1 - "
-                    + this.storage.getAllTasks().getSize() + ")");
+            return "Please re-enter your command with a valid task number (1 - "
+                    + this.storage.getAllTasks().getSize() + ")";
         }
 
         Task t = this.storage.getAllTasks().getTask(index - 1);
@@ -166,18 +170,18 @@ public class Parser {
         Task newTask;
         if (input.startsWith("todo ")) {
             if (input.substring(5).isEmpty()) {
-                throw new DKException("Format of command should match the following: 'todo {description}' " );
+                return "Format of command should match the following: 'todo {description}' " ;
             }
             newTask = new Todo(input.substring(5));
         } else if (input.startsWith("deadline ")) {
             String deadlineFormatError = "Format of command should match the following:" +
                     " 'deadline {description} /by {deadline}' ";
             if (!input.substring(9).contains("/by")) {
-                throw new DKException(deadlineFormatError);
+                return deadlineFormatError;
             }
             String[] splitted = input.split("/by");
             if (splitted.length != 2 || splitted[0].trim().isEmpty() || splitted[1].trim().isEmpty()) {
-                throw new DKException(deadlineFormatError);
+                return deadlineFormatError;
             }
             newTask = new Deadline(splitted[0].substring(9).trim(), LocalDate.parse(splitted[1].trim()));
         } else if (input.startsWith("event ")){
@@ -186,28 +190,28 @@ public class Parser {
 
             input = input.substring(6).trim();
             if (!input.contains("/from") || !input.contains("/to")) {
-                throw new DKException(eventFormatError);
+                return eventFormatError;
             }
             String[] splitted = input.split("/from");
             if (splitted.length != 2 || splitted[1].trim().isEmpty()) {
-                throw new DKException(eventFormatError);
+                return eventFormatError;
             }
             String description = splitted[0].trim();
             if (description.isEmpty()) {
-                throw new DKException(eventFormatError);
+                return eventFormatError;
             }
             splitted = splitted[1].split("/to");
             if (splitted.length != 2) {
-                throw new DKException(eventFormatError);
+                return eventFormatError;
             }
             String startDate = splitted[0].trim();
             String endDate = splitted[1].trim();
             if (startDate.isEmpty() || endDate.isEmpty()) {
-                throw new DKException(eventFormatError);
+                return eventFormatError;
             }
             newTask = new Event(description, LocalDate.parse(startDate), LocalDate.parse(endDate));
         } else {
-            throw new DKException("Invalid input, please try again");
+            return "Invalid input, please try again";
         }
         this.storage.getAllTasks().addTask(newTask);
         String output = "Got it. I've added this task:\n" + newTask.toString() + "\n";
@@ -225,12 +229,12 @@ public class Parser {
      */
     public String deleteItem(int index) throws DKException {
         if (this.storage.getAllTasks().isEmpty()) {
-            throw new DKException("There are no tasks in the list");
+            return "There are no tasks in the list";
         }
 
         if (index <= 0 || index > this.storage.getAllTasks().getSize()) {
-            throw new DKException("Please re-enter your command with a valid task number (1 - "
-                    + this.storage.getAllTasks().getSize() + ")");
+            return "Please re-enter your command with a valid task number (1 - "
+                    + this.storage.getAllTasks().getSize() + ")";
         }
         Task t = this.storage.getAllTasks().removeTask(index - 1);
         String output = "Oh? I've removed this task: \n" + t.toString() + "\n\nBetter not be cheating the system ... \n";
@@ -248,12 +252,11 @@ public class Parser {
     public String findItems(String input) throws DKException{
         String keyword = input.substring(5).trim();
         if (keyword.isEmpty()) {
-            throw new DKException("No keyword given, please try again with the following output:"
-                    + "find {keyword}");
+            return "No keyword given, please try again with the following output:" + "find {keyword}";
         }
         TaskList includesKeyword = new TaskList(this.storage.getAllTasks().filterTasks(keyword));
         if (includesKeyword.isEmpty()) {
-            throw new DKException("There were no tasks that match your keyword, please try again.");
+            return "There were no tasks that match your keyword, please try again.";
         }
         String output = "I've found all the matching tasks in your list for you!!\n\n";
         output += includesKeyword.toString();
