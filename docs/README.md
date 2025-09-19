@@ -22,7 +22,7 @@ and engaging output via the GUI.
   - [Exiting the program: `bye`](#bye)
   - [Saving / Loading of Data](#data)
 
-## <a name="quick-start">Quick Start</a>
+## <a name="quickstart">Quick Start</a>
 
 1. Ensure that Java `17` or above is installed on your computer.
    - For **MAC Users:** Ensure that the precise JDK version is correctly installed based on 
