@@ -86,7 +86,7 @@ public class Parser {
      */
     public String displayList() {
         if (this.storage.getAllTasks().isEmpty()) {
-            return "There are no tasks in the list.";
+            return "Good job! You have no tasks in the list.";
         }
         StringBuilder output = new StringBuilder(String.valueOf("Here are the tasks in your list:\n"));
         for (int i = 1; i < this.storage.getAllTasks().getSize() + 1; i++) {
@@ -95,6 +95,8 @@ public class Parser {
                 output.append("\n");
             }
         }
+
+        output.append("\n\nTime to start working!! Jiayous");
         return output.toString();
     }
 
@@ -119,9 +121,9 @@ public class Parser {
         Task t = this.storage.getAllTasks().getTask(index-1);
         if (t.getCompletion().equals(" ")) {
             t.updateCompletion();
-            output = "Nice! I've marked this task as done:\n" + index + "." + t.toString() ;
+            output = "YAY, you did it! I'll mark this task as done for you:\n\n" + index + "." + t.toString() ;
         } else {
-            output = "This task has already been marked as done";
+            output = "This task has already been marked as done, go start another one!";
         }
         return output;
     }
@@ -147,7 +149,7 @@ public class Parser {
         String output;
         if (t.getCompletion().equals("X")) {
             t.updateCompletion();
-            output = "Nice! I've marked this task as not done yet:\n" + index + "." + t.toString();
+            output = "Noooo :( \nI'll go mark this task as not done yet...\n\n" + index + "." + t.toString();
         } else {
             output ="This task has already been marked as not done yet";
         }
@@ -210,7 +212,7 @@ public class Parser {
         this.storage.getAllTasks().addTask(newTask);
         String output = "Got it. I've added this task:\n" + newTask.toString() + "\n";
         String plural = this.storage.getAllTasks().getSize() == 1 ? "" : "s";
-        output += "Now you have " + this.storage.getAllTasks().getSize() + " task" + plural + " in the list.";
+        output += "Now you have " + this.storage.getAllTasks().getSize() + " task" + plural + " in the list. \n\nStay strong :D ";
         return output;
     }
 
@@ -231,9 +233,9 @@ public class Parser {
                     + this.storage.getAllTasks().getSize() + ")");
         }
         Task t = this.storage.getAllTasks().removeTask(index - 1);
-        String output = "Noted! I've removed this task: \n" + t.toString() + "\n";
+        String output = "Oh? I've removed this task: \n" + t.toString() + "\n\nBetter not be cheating the system ... \n";
         String plural = this.storage.getAllTasks().getSize() == 1 ? "" : "s";
-        output += "Now you have " + this.storage.getAllTasks().getSize() + " task" + plural + " in the list.";
+        output += "Now you have " + this.storage.getAllTasks().getSize() + " task" + plural + " in the list!! ";
         return output;
     }
 
@@ -253,7 +255,7 @@ public class Parser {
         if (includesKeyword.isEmpty()) {
             throw new DKException("There were no tasks that match your keyword, please try again.");
         }
-        String output = "Here are the matching tasks in your list:\n";
+        String output = "I've found all the matching tasks in your list for you!!\n\n";
         output += includesKeyword.toString();
         return output;
     }
